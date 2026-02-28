@@ -1,4 +1,4 @@
-package com.scaler.productservice2402.dtos;
+package com.scaler.productservice2402.dtos.fakestores;
 
 import com.scaler.productservice2402.models.Product;
 import lombok.Getter;
