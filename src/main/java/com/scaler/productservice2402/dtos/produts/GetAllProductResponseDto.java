@@ -1,4 +1,4 @@
-package com.scaler.productservice2402.dtos;
+package com.scaler.productservice2402.dtos.produts;
 
 import lombok.Getter;
 import lombok.Setter;
