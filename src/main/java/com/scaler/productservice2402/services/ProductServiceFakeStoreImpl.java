@@ -3,6 +3,7 @@ package com.scaler.productservice2402.services;
 import com.scaler.productservice2402.dtos.fakestores.FakeStoreCreateProductRequestDto;
 import com.scaler.productservice2402.dtos.fakestores.FakeStoreGetProductResponseDto;
 import com.scaler.productservice2402.exceptions.ProductNotFoundException;
+import com.scaler.productservice2402.models.Category;
 import com.scaler.productservice2402.models.Product;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -23,7 +24,7 @@ public class ProductServiceFakeStoreImpl implements ProductService{
     @Override
     public Product createProduct(Product product) {
         FakeStoreCreateProductRequestDto fakeStoreCreateProductRequestDto = new FakeStoreCreateProductRequestDto();
-        fakeStoreCreateProductRequestDto.setCategory(product.getCategoryName());
+        fakeStoreCreateProductRequestDto.setCategory(product.getCategory().getName());
         fakeStoreCreateProductRequestDto.setDescription(product.getDescription());
         fakeStoreCreateProductRequestDto.setPrice(product.getPrice());
         fakeStoreCreateProductRequestDto.setImage(product.getImageUrl());
@@ -44,7 +45,9 @@ public class ProductServiceFakeStoreImpl implements ProductService{
         Product productResponse = new Product();
         productResponse.setId(responseDto.getId());
         productResponse.setTitle(responseDto.getTitle());
-        productResponse.setCategoryName(responseDto.getCategory());
+        Category category1 = new Category();
+        category1.setName(responseDto.getCategory());
+        productResponse.setCategory(category1);
         productResponse.setDescription(responseDto.getDescription());
         productResponse.setPrice(responseDto.getPrice());
         productResponse.setImageUrl(responseDto.getImage());

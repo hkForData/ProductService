@@ -57,6 +57,7 @@ public class ProductController {
         response.setProductDto(GetProductDto.fromProduct(product));
         return response;
     }
+    @PutMapping("/{id}")
     public void replaceProduct(){
         //put
     }

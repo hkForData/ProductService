@@ -3,8 +3,10 @@ package com.scaler.productservice2402.advices;
 import com.scaler.productservice2402.dtos.ErrorResponseDto;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 
 @ControllerAdvice
+@RestController
 public class ExceptionAdvices {
 
     @ExceptionHandler(RuntimeException.class)
