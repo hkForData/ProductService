@@ -80,7 +80,7 @@ public class ProductServiceDBImpl implements ProductService{
         if(category.isEmpty()){
             Category toSaveCategory = new Category();
             toSaveCategory.setName(categoryName);
-            categoryToBeInProduct = categoryRepository.save(product.getCategory());
+            categoryToBeInProduct = toSaveCategory;
         }
         else {
             categoryToBeInProduct = category.get();
