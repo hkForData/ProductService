@@ -19,6 +19,7 @@ public class GetProductDto {
         getProductDto.setPrice(product.getPrice());
         getProductDto.setDescription(product.getDescription());
         getProductDto.setImageUrl(product.getImageUrl());
+        getProductDto.setTitle(product.getTitle());
         return getProductDto;
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
     ProductService productService;
-    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
+    public ProductController(@Qualifier("dbProductService") ProductService productService) {
         this.productService = productService;
     }
     @PostMapping("")
