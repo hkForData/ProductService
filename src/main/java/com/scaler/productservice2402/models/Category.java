@@ -1,8 +1,6 @@
 package com.scaler.productservice2402.models;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,10 +9,11 @@ import java.util.List;
 @Setter
 @Entity
 public class Category extends BaseModel{
+    @Column(unique = true, name = "category_name")
     private String name;
     private String description;
-    @OneToMany()
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Product> featuredProducts;
-    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<Product> allProducts;
 }
