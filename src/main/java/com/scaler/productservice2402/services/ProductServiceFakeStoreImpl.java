@@ -5,6 +5,7 @@ import com.scaler.productservice2402.dtos.fakestores.FakeStoreGetProductResponse
 import com.scaler.productservice2402.exceptions.ProductNotFoundException;
 import com.scaler.productservice2402.models.Category;
 import com.scaler.productservice2402.models.Product;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,10 @@ import java.util.List;
 public class ProductServiceFakeStoreImpl implements ProductService{
 
     private RestTemplate restTemplate;
-    ProductServiceFakeStoreImpl(RestTemplate restTemplate) {
+    private RedisTemplate<String, Object> redisTemplate;
+    ProductServiceFakeStoreImpl(RestTemplate restTemplate, RedisTemplate redisTemplate) {
         this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
     }
     @Override
     public Product createProduct(Product product) {
@@ -38,6 +41,10 @@ public class ProductServiceFakeStoreImpl implements ProductService{
 
     @Override
     public Product getSingleProduct(Long id){
+        Product product = (Product) redisTemplate.opsForHash().get("PRODUCTS","product_" + id);
+            if(product != null){
+                return product;
+            }
         FakeStoreGetProductResponseDto responseDto = restTemplate.getForObject("https://fakestoreapi.com/products/{id}", FakeStoreGetProductResponseDto.class, id);
         if(responseDto == null){
             throw new ProductNotFoundException("Product with id " + id + " not found");
@@ -51,7 +58,10 @@ public class ProductServiceFakeStoreImpl implements ProductService{
         productResponse.setDescription(responseDto.getDescription());
         productResponse.setPrice(responseDto.getPrice());
         productResponse.setImageUrl(responseDto.getImage());
-        return productResponse;
+        product = productResponse;
+        // Befroe returning Store the product in Redis cache with a key like "product_{id}"
+        redisTemplate.opsForHash().put("PRODUCTS", "product_" + id, product);
+        return product;
     }
 
     @Override
